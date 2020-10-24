@@ -1,114 +1,127 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { Platform, StatusBar, StyleSheet, View , Text} from 'react-native';
+import AppNavigator from './src/navigation/AppNavigator';
+import {DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { openDatabase } from 'react-native-sqlite-storage';
+var db = openDatabase({ name: 'rpg.db' });
+export default class App extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoadingComplete: false
+    }
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+//####################################### CRIAR A TABELA SE ELA NÃO EXISTIR ###########################################################
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+db.transaction(function (txn) {
+  txn.executeSql(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='PERSONAGENS' ",
+    [],
+    function (tx, res) {
+      if (res.rows.length == 0) {
+        txn.executeSql('DROP TABLE IF EXISTS PERSONAGENS', []);
+        txn.executeSql(
+          ' CREATE TABLE IF NOT EXISTS PERSONAGENS( '+
+          ' ID_PERSONAGEM PRIMARY KEY AUTOINCREMENT, '+
+          ' NOME VARCHAR(200), '+
+          ' CLASSE VARCHAR(200), '+
+          ' RACA VARCHAR(200), '+
+          ' FORCA INTEGER, '+
+          ' MAGIA INTEGER, '+
+          ' PRECISAO INTEGER, '+
+          ' AGILIDADE INTERGER, '+
+          ' VITALIDADE INTEGER, '+
+          ' ENERGIA INTEGER, '+
+          ' ARMADURA INTEGER, '+
+          ' AURA INTEGER '+
+          ' ) ',
+          []
+        );
+        condInsertBase=true;
+      }else{
+        condInsertBase=false;
+      }
+    }
   );
+  txn.executeSql(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='ARMAS' ",
+    [],
+    function (tx, res) {
+      if (res.rows.length == 0) {
+        txn.executeSql('DROP TABLE IF EXISTS ARMAS', []);
+        txn.executeSql(
+          ' CREATE TABLE IF NOT EXISTS ARMAS( '+
+          ' ID_ARMA PRIMARY KEY AUTOINCREMENT, '+
+          ' NOME VARCHAR(200), '+
+          ' CLASSE VARCHAR(200), '+
+          ' RACA VARCHAR(200), '+
+          ' FORCA INTEGER, '+
+          ' MAGIA INTEGER, '+
+          ' PRECISAO INTEGER, '+
+          ' AGILIDADE INTERGER, '+
+          ' VITALIDADE INTEGER, '+
+          ' ENERGIA INTEGER, '+
+          ' ARMADURA INTEGER, '+
+          ' AURA INTEGER, '+
+          ' REQUISITO VARCHAR(200), '+
+          ' VALOR INTEGER '+
+          ' ) '
+          ,
+          []
+        );
+        condInsertBase=true;
+      }else{
+        condInsertBase=false;
+      }
+    }
+  );
+});
+
+
+  }
+
+
+
+  render() {
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppNavigator />
+      );
+    } else {
+      return (
+        <PaperProvider theme={theme}>
+        <View style={styles.container}>
+        <AppNavigator />
+        </View>
+      </PaperProvider>
+      );
+    }
+  }
+
+  _handleLoadingError = error => {
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
+  };
+
+  }
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'tomato',
+    accent: 'yellow',
+  },
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });
 
-export default App;
+
