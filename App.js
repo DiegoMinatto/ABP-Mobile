@@ -15,6 +15,8 @@ export default class App extends React.Component {
 //####################################### CRIAR A TABELA SE ELA NÃO EXISTIR ###########################################################
 
 db.transaction(function (txn) {
+
+
   txn.executeSql(
     "SELECT name FROM sqlite_master WHERE type='table' AND name='PERSONAGENS' ",
     [],
@@ -23,7 +25,7 @@ db.transaction(function (txn) {
         txn.executeSql('DROP TABLE IF EXISTS PERSONAGENS', []);
         txn.executeSql(
           ' CREATE TABLE IF NOT EXISTS PERSONAGENS( '+
-          ' ID_PERSONAGEM PRIMARY KEY AUTOINCREMENT, '+
+          ' ID_PERSONAGEM INTEGER PRIMARY KEY AUTOINCREMENT, '+
           ' NOME VARCHAR(200), '+
           ' CLASSE VARCHAR(200), '+
           ' RACA VARCHAR(200), '+
@@ -44,6 +46,9 @@ db.transaction(function (txn) {
       }
     }
   );
+
+
+
   txn.executeSql(
     "SELECT name FROM sqlite_master WHERE type='table' AND name='ARMAS' ",
     [],
@@ -52,7 +57,7 @@ db.transaction(function (txn) {
         txn.executeSql('DROP TABLE IF EXISTS ARMAS', []);
         txn.executeSql(
           ' CREATE TABLE IF NOT EXISTS ARMAS( '+
-          ' ID_ARMA PRIMARY KEY AUTOINCREMENT, '+
+          ' ID_ARMA INTEGER PRIMARY KEY AUTOINCREMENT, '+
           ' NOME VARCHAR(200), '+
           ' CLASSE VARCHAR(200), '+
           ' RACA VARCHAR(200), '+
