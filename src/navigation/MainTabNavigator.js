@@ -4,11 +4,14 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 import TabBarIcon from '../Utils/TabBarIcon.js';
 import HomeScreen from '../containers/HomeScreen';
+import Personagem from '../containers/persongem'
 import cadastroPersonagem from '../containers/cadastroPesonagem'
 import Objetos from '../containers/objetos'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  Personagem: Personagem
+
 });
 
 const PersonagemStack = createStackNavigator({

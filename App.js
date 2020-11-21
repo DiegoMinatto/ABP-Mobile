@@ -22,7 +22,6 @@ db.transaction(function (txn) {
     [],
     function (tx, res) {
       if (res.rows.length == 0) {
-        txn.executeSql('DROP TABLE IF EXISTS PERSONAGENS', []);
         txn.executeSql(
           ' CREATE TABLE IF NOT EXISTS PERSONAGENS( '+
           ' ID_PERSONAGEM INTEGER PRIMARY KEY AUTOINCREMENT, '+
@@ -38,7 +37,12 @@ db.transaction(function (txn) {
           ' ARMADURA INTEGER, '+
           ' AURA INTEGER '+
           ' ) ',
-          []
+          [], () => {
+            txn.executeSql(
+              "INSERT INTO PERSONAGENS(NOME) VALUES('Tupak')",
+              [],
+            );  
+          }
         );
         condInsertBase=true;
       }else{
@@ -54,7 +58,6 @@ db.transaction(function (txn) {
     [],
     function (tx, res) {
       if (res.rows.length == 0) {
-        txn.executeSql('DROP TABLE IF EXISTS ARMAS', []);
         txn.executeSql(
           ' CREATE TABLE IF NOT EXISTS ARMAS( '+
           ' ID_ARMA INTEGER PRIMARY KEY AUTOINCREMENT, '+
@@ -81,6 +84,9 @@ db.transaction(function (txn) {
       }
     }
   );
+
+
+
 });
 
 

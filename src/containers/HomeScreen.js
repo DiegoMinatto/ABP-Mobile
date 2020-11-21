@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Swipeout from 'react-native-swipeout';
 import { SafeAreaView } from 'react-navigation';
 
-var db = openDatabase({ name: 'rpg.db', createFromLocation: '~database/rpg.sqlite'});
+var db = openDatabase({ name: 'rpg.db'});
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -18,14 +18,23 @@ export default class HomeScreen extends React.Component {
     this.state = {
       dataSource: [],
       isLoading: true,
-      FlatListItems: '',
+      FlatListItems: [],
       activeRowKey: null,
       modalVisible: false,
     }
-    db.transaction(tx => {
+
+   
+
+  }
+
+
+  async componentDidMount() {
+    
+    await     db.transaction(tx => {
       tx.executeSql('SELECT * FROM PERSONAGENS', [], (tx, results) => {
         var temp = [];
         for (let i = 0; i < results.rows.length; ++i) {
+          console.log(results.rows.item(i))
           temp.push(results.rows.item(i));
         }
         this.setState({
@@ -34,7 +43,7 @@ export default class HomeScreen extends React.Component {
       });
     });
    
-
+   
   }
 
   async deleteItemById(item) {
@@ -54,6 +63,11 @@ export default class HomeScreen extends React.Component {
 
   }
 
+  telaItem = (item) => {
+
+    this.props.navigation.navigate("Personagem", { params: item })
+  }
+
 
   renderItem = ({ item, index }) => {
     const swipeSettings = {
@@ -71,44 +85,13 @@ export default class HomeScreen extends React.Component {
         })
 
       },
-      right: [
-        {
-          onPress: () => {
-            const deletingRow = this.state.activeRowKey;
-            Alert.alert(
-              'Alert',
-              'Tem certeza que você quer deletar?',
-              [
-                { text: 'Não', onPress: () => {}, style: 'cancel' },
-                {
-                  text: 'Sim', onPress: () => {
-                    this.state.FlatListItems.splice(index, 1);
-                    this.setState({
-                      FlatList: this.state.FlatListItems
-                    })
-
-                    if (this.state.FlatListItems == "") {
-                      this.setState({ FlatListItems: item })
-                    }
-
-                    this.deleteItemById(item);
-
-                  }
-                }
-              ]
-            )
-          },
-          text: 'Excluir', type: 'delete'
-        },
-      ],
-      left: [],
       rowId: index,
       sectionId: 1,
     }
     return (
       <Swipeout {...swipeSettings}>
         <View style={styles.ViewCard}>
-          <Card style={styles.Card} onPress={() => {}}>
+          <Card style={styles.Card} onPress={() => this.telaItem(item)}>
             <Card.Content>
               <View style={styles.ViewCardContent}>
                 <Title style={styles.TituloCard}>{item.NOME}</Title>
@@ -125,22 +108,32 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-     <View>
-          <View style={{ alignItems: 'center', height: 50, marginBottom: 20, marginTop: '10%' }}>
-            <Text style={{ marginTop: 10, fontSize: 17 }} >Personagens</Text>
-          </View>
-          <View style={styles.viewFlatList}>
-    
-            <SafeAreaView style={{flex: 1}}>
-              <FlatList
-                data={this.state.FlatListItems}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={this.renderItem}
-                style={{ marginBottom: '20%' }}
-              />
-            </SafeAreaView>
-          </View>
-          </View>
+
+
+      <ScrollView>
+      <View style={{ alignItems: 'center', height: 50, marginBottom: 20, marginTop: '10%' }}>
+        <Text style={{ marginTop: 10, fontSize: 17 }} ><Icon name="nature-people" size={40}
+             color="#336666" /> Meus Projetos</Text>
+      </View>
+      <View style={styles.viewFlatList}>
+        <NavigationEvents
+          onWillFocus={payload => this.componentDidMount()}
+          onDidFocus={payload => this.componentDidMount()}
+          onWillBlur={payload => this.componentDidMount()}
+          onDidBlur={payload => this.componentDidMount()}
+        />
+       
+          <FlatList
+            data={this.state.FlatListItems}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={this.renderItem}
+            style={{ marginBottom: '20%' }}
+          />
+      
+      </View>
+    </ScrollView>
+
+
 
     );
   }
