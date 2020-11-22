@@ -17,27 +17,70 @@ export default class cadastroPersonagem extends React.Component {
       nome: '',
       classe: '',
       raca: '',
-      forca: '',
-      magia: '',
-      precisao: '',
-      agilidade: '',
-      vitalidade: '',
-      energia: '',
-      armadura: '',
-      aura: ''
+      forca: '0',
+      magia: '0',
+      precisao: '0',
+      agilidade: '0',
+      vitalidade: '0',
+      energia: '0',
+      armadura: '0',
+      aura: '0'
     }
   }
   
   componentDidMount(){
+    
+  }
 
+
+  cadastra(navigation,app){
+    const NOME = this.state.nome;
+    const CLASSE = this.state.classe;
+    const RACA = this.state.raca;
+    const FORCA = Number(this.state.forca);
+    const MAGIA = Number(this.state.magia);
+    const PRECISAO = Number(this.state.precisao);
+    const AGILIDADE = Number(this.state.agilidade);
+    const VITALIDADE = Number(this.state.vitalidade);
+    const ENERGIA = Number(this.state.energia);
+    const ARMADURA = Number(this.state.armadura);
+    const AURA = Number(this.state.aura);
+    db.transaction(function (tx) {
+      tx.executeSql(
+        'INSERT INTO PERSONAGENS(NOME,CLASSE,RACA,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+        [NOME,CLASSE,RACA,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA],
+        (tx, results) => {
+           if (results.rowsAffected > 0) {
+            alert('Salvo com sucesso!');
+            app.limparCampos();
+            navigation.navigate('Home')
+           } else {
+              alert('Falha ao salvar!');
+          }
+          }
+        );
+      });
   }
 
   limparCampos(){
-
+    this.setState({
+      nome: '',
+      classe: '',
+      raca: '',
+      forca: '0',
+      magia: '0',
+      precisao: '0',
+      agilidade: '0',
+      vitalidade: '0',
+      energia: '0',
+      armadura: '0',
+      aura: '0'
+    })
   }
 
 
   render() {
+    const navigation = this.props.navigation;
     return (
       <View style={styles.content}>
       <View style={styles.containerTitulo}>
@@ -55,14 +98,14 @@ export default class cadastroPersonagem extends React.Component {
       label="Classe"
       style={styles.view}
       value={this.state.classe}
-      onChangeText={text => {this.setState({classe: {text}})}}
+      onChangeText={text => {this.setState({classe: text})}}
     />
     
     <TextInput
       label="Raça"
       style={styles.view}
       value={this.state.raca}
-      onChangeText={text => {this.setState({racao: text})}}
+      onChangeText={text => {this.setState({raca: text})}}
     />
     
     <TextInput
@@ -127,7 +170,7 @@ export default class cadastroPersonagem extends React.Component {
                               <View style={{flexDirection:"row"}}>
           <View style={{flex:1}}>
             <TouchableOpacity style={styles.entrar3}
-                              onPress={() => { this.limparEstadosCad() }}
+                              onPress={() => { this.limparCampos() }}
             >
               <Text style={styles.textButton}>Limpar</Text>
             </TouchableOpacity>    
@@ -135,7 +178,7 @@ export default class cadastroPersonagem extends React.Component {
           <View style={{flex:1}}>
            
               <TouchableOpacity style={styles.entrar2}
-                                onPress={() => this.saveChangesCad()}
+                                onPress={() => {this.cadastra(navigation,this)}}
               >
                 <Text style={styles.textButton}>Salvar</Text>
               </TouchableOpacity>
