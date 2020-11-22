@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View , Text} from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
 import {DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+
 import { openDatabase } from 'react-native-sqlite-storage';
 var db = openDatabase({ name: 'rpg.db' });
 export default class App extends React.Component {
@@ -38,10 +39,7 @@ db.transaction(function (txn) {
           ' AURA INTEGER '+
           ' ) ',
           [], () => {
-            txn.executeSql(
-              "INSERT INTO PERSONAGENS(NOME) VALUES('Tupak')",
-              [],
-            );  
+            
           }
         );
         condInsertBase=true;
