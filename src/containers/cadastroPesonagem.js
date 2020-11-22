@@ -112,52 +112,172 @@ export default class cadastroPersonagem extends React.Component {
       label="Força"
       style={styles.view}
       value={this.state.forca}
+      disabled={true}
       onChangeText={text => {this.setState({forca: text})}}
     />
-    
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({forca: String(Number(this.state.forca) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({forca: String(Number(this.state.forca) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>
+
+
     <TextInput
       label="Magia"
       style={styles.view}
+      disabled={true}
       value={this.state.magia}
       onChangeText={text => {this.setState({magia: text})}}
     />
-    
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({magia: String(Number(this.state.magia) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({magia: String(Number(this.state.magia) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
     <TextInput
       label="Precisão"
       style={styles.view}
+      disabled={true}
       value={this.state.precisao}
       onChangeText={text => {this.setState({precisao: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({precisao: String(Number(this.state.precisao) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({precisao: String(Number(this.state.precisao) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
         <TextInput
       label="Agilidade"
+      disabled={true}
       style={styles.view}
       value={this.state.agilidade}
       onChangeText={text => {this.setState({agilidade: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({agilidade: String(Number(this.state.agilidade) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({agilidade: String(Number(this.state.agilidade) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
             <TextInput
       label="Vitalidade"
       style={styles.view}
+      disabled={true}
       value={this.state.vitalidade}
       onChangeText={text => {this.setState({vitalidade: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({vitalidade: String(Number(this.state.vitalidade) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({vitalidade: String(Number(this.state.vitalidade) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
             <TextInput
       label="Energia"
+      disabled={true}
       style={styles.view}
       value={this.state.energia}
       onChangeText={text => {this.setState({energia: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({energia: String(Number(this.state.energia) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({energia: String(Number(this.state.energia) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
             <TextInput
       label="Armadura"
+      disabled={true}
       style={styles.view}
       value={this.state.armadura}
       onChangeText={text => {this.setState({armadura: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({armadura: String(Number(this.state.armadura) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({armadura: String(Number(this.state.armadura) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
             <TextInput
       label="Aura"
+      disabled={true}
       style={styles.view}
       value={this.state.aura}
       onChangeText={text => {this.setState({aura: text})}}
     />
+    <View style={{paddingBottom: 10, paddingTop: 15,flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
+      <View style={{flexDirection:"row"}}>
+        <View style={{flex:1}}>
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({aura: String(Number(this.state.aura) + 1)})}}>
+            <Text style={styles.textButton}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>            
+          <TouchableOpacity style={styles.touch} onPress={() => {this.setState({aura: String(Number(this.state.aura) - 1)})}}>
+            <Text style={styles.textButton}>-</Text>
+          </TouchableOpacity>    
+        </View>
+      </View>
+    </View>    
   
   
   
@@ -203,10 +323,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
+  touch: {
+    marginLeft: 10,
+    marginRight: 10,
+    height: 25,
+    borderRadius: 10,
+    backgroundColor: '#2b419a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+  },
    entrar2: {
     alignItems: 'center', borderRadius: 30, marginTop: 10, paddingTop: '6%', color: '#6680AA',
     paddingBottom: '6%',
-    backgroundColor: 'blue',
+    backgroundColor: '#2b419a',
     borderColor: '#fff',
     width: '90%',
     marginBottom: 100,
@@ -214,7 +344,7 @@ const styles = StyleSheet.create({
   entrar3: {
     alignItems: 'center', borderRadius: 30, marginTop: 10, paddingTop: '6%', color: '#6680AA',
     paddingBottom: '6%',
-    backgroundColor: 'blue',
+    backgroundColor: '#2b419a',
     borderColor: '#fff',
     width: '90%',
     marginBottom: 100,
@@ -238,7 +368,7 @@ const styles = StyleSheet.create({
   },
   TituloTexto: {
     fontSize: 20,
-    color: 'blue'
+    color: '#2b419a'
   },
 })
 
