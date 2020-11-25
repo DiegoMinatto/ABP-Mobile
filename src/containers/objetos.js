@@ -1,30 +1,37 @@
 import React, { Component } from 'react'
-import {StyleSheet, Text, View,TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, Text, View,TouchableOpacity, FlatList, ScrollView} from 'react-native';
 import { Divider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import styles from './../Utils/styles'
 
 export default class Objetos extends Component {
+
+  static navigationOptions = {
+    headerShown: false
+  }
+
   state = {
     ArrayNomes: []
   }
 
   definirRota(item){
 
-   if(item == "Espadas"){
-   // this.props.navigation.navigate("EditaEspecie", {})
-   }
-   if(item == "Arcos"){
-    //this.props.navigation.navigate("CadastroEspecie", {})
-   }
-   if(item == "Armaduras"){
-    //this.props.navigation.navigate("CadastroEspecie", {})
-   }
+    if(item == "Cadastrar"){
+    this.props.navigation.navigate("cadastroEspecie", {})
+    }
+    if(item != "Cadastrar"){
+      this.props.navigation.navigate("Especie", {params: item})
+    }
+    /* if(item != "Cadastrar"){
+      this.props.navigation.navigate("editaEspecie", {params: item})
+    } */
   }
   async componentDidMount() {
 
     
   this.setState((prevState) => ({
-    ArrayNomes: ['Espadas','Arcos','Armaduras']
+    ArrayNomes: ['Espadas','Machado','Cajado','Marreta','Arcos','Lança','Escudo','Armaduras','Grimorio']
   }))
    
   }
@@ -38,7 +45,7 @@ renderItem = ({ item }) => {
       <Text style={{ marginStart:15 ,fontSize: 20, color: '#2b419a', marginBottom: 15, textAlign:'left', marginRight: 3 }}>
         {item}
       </Text>
-        <Divider style={{width:370,marginTop:10, borderWidth:1, borderColor: '#2b419a', justifyContent:'center'}}/>
+        <Divider style={{width:370,marginTop:5, borderWidth:1, borderColor: '#2b419a', justifyContent:'center'}}/>
       </View>
      </TouchableOpacity>
   )
@@ -53,48 +60,37 @@ renderSeparator = () => {
 
 render() {
   return (
-    <View>
-      <FlatList
-        data={this.state.ArrayNomes}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={this.renderItem}
-        //ItemSeparatorComponent={this.renderSeparator}
-      />
+    <View style={styles.content}>
+      <View style={{ alignItems: 'center', height: 50, marginBottom: 20, marginTop: '5%' }}>
+        <Text style={{ marginTop: 10, fontSize: 17 }} ><Icon name="nature-people" size={40}
+             color="#336666" /> Meus Objetos</Text>
+      </View>
+     
+      <ScrollView>
+            <View style={styles.viewFlatList}>
+            <FlatList
+              data={this.state.ArrayNomes}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={this.renderItem}
+              //ItemSeparatorComponent={this.renderSeparator}
+            />
+            </View>
+      </ScrollView>
+
+      <View style={{paddingBottom: 10, paddingTop: 15, flexDirection: 'column', width:'80%',justifyContent:'center', alignItems:'center', marginRight:'auto',marginLeft:'auto' }}>
+        <View style={{flexDirection:"row"}}>
+          <View style={{flex:1}}>
+           
+              <TouchableOpacity style={styles.entrar2}
+                                onPress={() => this.definirRota('Cadastrar')}
+              >
+                <Text style={styles.textButton}>Novas Armas</Text>
+              </TouchableOpacity>
+            
+          </View>
+        </View>
+      </View>
     </View>
   )
  }
 }
-
-const styles = StyleSheet.create({
-  botaoLogin: {
-    color: 'gray',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  textoBotao: {
-    alignItems: 'center',
-    color: 'white'
-  },
-  containerFlat:{
-    marginTop:15,
-  },
-  mainContainer: {
-    width: 500,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  BotaoCadastro: {
-    width: 150,
-    height: 50,
-    borderRadius: 10,
-    backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  viewBotao: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-});

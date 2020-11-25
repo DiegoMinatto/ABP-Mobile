@@ -7,6 +7,9 @@ import HomeScreen from '../containers/HomeScreen';
 import Personagem from '../containers/persongem'
 import cadastroPersonagem from '../containers/cadastroPesonagem'
 import Objetos from '../containers/objetos'
+import Especie from '../containers/Especie'
+import cadastroEspecie from '../containers/cadastroEspecie'
+import editaEspecie from '../containers/editaEspecie'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -20,6 +23,9 @@ const PersonagemStack = createStackNavigator({
 
 const ObjetosStack = createStackNavigator({
   Objetos: Objetos,
+  Especie: Especie,
+  cadastroEspecie: cadastroEspecie,
+  editaEspecie: editaEspecie
 });
 
 

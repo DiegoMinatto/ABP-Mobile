@@ -3,11 +3,11 @@ import {StyleSheet,View, Text,ScrollView,TouchableOpacity,Picker} from 'react-na
 import { openDatabase } from 'react-native-sqlite-storage';
 import { TextInput } from 'react-native-paper';
 
-import styles from './../Utils/styles'
+import styles from '../Utils/styles'
 
 var db = openDatabase({ name: 'rpg.db', createFromLocation: '~database/rpg.sqlite'});
 
-export default class cadastroPersonagem extends React.Component {
+export default class cadastroEspecie extends React.Component {
   static navigationOptions = {
     headerShown: false
   }
@@ -18,7 +18,7 @@ export default class cadastroPersonagem extends React.Component {
     this.state = {
       nome: '',
       classe: '',
-      raca: '',
+      raridade: '',
       forca: '0',
       magia: '0',
       precisao: '0',
@@ -38,7 +38,7 @@ export default class cadastroPersonagem extends React.Component {
   cadastra(navigation,app){
     const NOME = this.state.nome;
     const CLASSE = this.state.classe;
-    const RACA = this.state.raca;
+    const RARIDADE = this.state.raridade;
     const FORCA = Number(this.state.forca);
     const MAGIA = Number(this.state.magia);
     const PRECISAO = Number(this.state.precisao);
@@ -47,10 +47,12 @@ export default class cadastroPersonagem extends React.Component {
     const ENERGIA = Number(this.state.energia);
     const ARMADURA = Number(this.state.armadura);
     const AURA = Number(this.state.aura);
+
+    //alert(NOME+CLASSE+RARIDADE+FORCA+MAGIA+PRECISAO+AGILIDADE+VITALIDADE+ENERGIA+ARMADURA+AURA)
     db.transaction(function (tx) {
       tx.executeSql(
-        'INSERT INTO PERSONAGENS(NOME,CLASSE,RACA,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
-        [NOME,CLASSE,RACA,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA],
+        'INSERT INTO ARMAS(NOME,CLASSE,RARIDADE,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+        [NOME,CLASSE,RARIDADE,FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA],
         (tx, results) => {
            if (results.rowsAffected > 0) {
             alert('Salvo com sucesso!');
@@ -68,7 +70,7 @@ export default class cadastroPersonagem extends React.Component {
     this.setState({
       nome: '',
       classe: '',
-      raca: '',
+      raridade: '',
       forca: '0',
       magia: '0',
       precisao: '0',
@@ -86,7 +88,7 @@ export default class cadastroPersonagem extends React.Component {
     return (
       <View style={styles.content}>
       <View style={styles.containerTitulo}>
-        <Text style={styles.TituloTexto}>Novo Personagem</Text>
+        <Text style={styles.TituloTexto}>Novo Objeto</Text>
       </View>
         <ScrollView  ref='_scrollView'>    
         <TextInput
@@ -110,35 +112,32 @@ export default class cadastroPersonagem extends React.Component {
             </View>
             <View style={{flex:1}}>
               <Picker style = {{width: 175, flex:1}} selectedValue = {this.state.classe} onValueChange = {(itemValor, itemIndex) => this.setState({classe: itemValor})}>
-                <Picker.Item label="Escolher..." value=""/>
-                <Picker.Item label="Assassino" value="Assassino"/>
-                <Picker.Item label="Arqueiro" value="Arqueiro"/>
-                <Picker.Item label="Bruxo" value="Bruxo"/>
-                <Picker.Item label="Druida" value="Druida"/>
-                <Picker.Item label="Feiticeiro" value="Feiticeiro"/>
-                <Picker.Item label="Guerreiro" value="Guerreiro"/>
-                <Picker.Item label="Mago" value="Mago"/>
-                <Picker.Item label="Monge" value="Monge"/>
-                <Picker.Item label="Paladino" value="Paladino"/>
-                <Picker.Item label="Sacerdote" value="Sacerdote"/>
+              <Picker.Item label="Escolher..." value=""/>
+                <Picker.Item label="Arco" value="Arco"/>
+                <Picker.Item label="Cajado" value="Cajado"/>
+                <Picker.Item label="Escudo" value="Escudo"/>
+                <Picker.Item label="Espada" value="Espada"/>
+                <Picker.Item label="Lança" value="Lança"/>
+                <Picker.Item label="Grimorio" value="Grimorio"/>
+                <Picker.Item label="Machado" value="Machado"/>
+                <Picker.Item label="Marreta" value="Marreta"/>
+                <Picker.Item label="Armadura" value="Armadura"/>
               </Picker>
             </View>
           </View>
 
           <View style={{flexDirection:"column"}}>
             <View style={{flex:1}}>
-              <Text>Raça:</Text>
+              <Text>Raridade:</Text>
             </View>
             <View style={{flex:1}}>
-              <Picker style = {{width: 175, flex:1}} selectedValue = {this.state.raca} onValueChange = {(itemValor, itemIndex) => this.setState({raca: itemValor})}>
+              <Picker style = {{width: 175, flex:1}} selectedValue = {this.state.raridade} onValueChange = {(itemValor, itemIndex) => this.setState({raridade: itemValor})}>
               <Picker.Item label="Escolher..." value=""/>
-                <Picker.Item label="Anão" value="Anão"/>
-                <Picker.Item label="Bestial" value="Bestial"/>
-                <Picker.Item label="Elfo" value="Elfo"/>
-                <Picker.Item label="Humano" value="Humano"/>
-                <Picker.Item label="Gnomo" value="Gnomo"/>
-                <Picker.Item label="Goblin" value="Goblin"/>
-                <Picker.Item label="Ogro" value="Ogro"/>
+                <Picker.Item label="Domestica" value="Domestica"/>
+                <Picker.Item label="Comum" value="Comum"/>
+                <Picker.Item label="Incomum" value="Incomum"/>
+                <Picker.Item label="Rara" value="Rara"/>
+                <Picker.Item label="Lendaria" value="Lendaria"/>
               </Picker>
             </View>
           </View>

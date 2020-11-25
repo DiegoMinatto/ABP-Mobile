@@ -3,22 +3,22 @@ import {StyleSheet,View, Text, ScrollView, TouchableOpacity, Picker} from 'react
 import { openDatabase } from 'react-native-sqlite-storage';
 import { TextInput } from 'react-native-paper';
 
-import styles from './../Utils/styles'
+import styles from '../Utils/styles'
 
 var db = openDatabase({ name: 'rpg.db'});
 var vD = 0;
 var vP = 0;
 
-export default class Personagem extends React.Component {
+export default class editaEspecie extends React.Component {
   static navigationOptions = {
     headerShown: false
   }
   constructor(props) {
     super(props)
     this.state = {
-        nome: '',
+        nome:'',
         classe: '',
-        raca: '',
+        raridade: '',
         forca: '0',
         magia: '0',
         precisao: '0',
@@ -43,7 +43,7 @@ export default class Personagem extends React.Component {
    if(this.props.navigation.state.params.params){
        this.setState({nome: this.props.navigation.state.params.params.NOME})
        this.setState({classe: this.props.navigation.state.params.params.CLASSE})
-       this.setState({raca: this.props.navigation.state.params.params.RACA})
+       this.setState({raridade: this.props.navigation.state.params.params.RARIDADE})
        this.setState({forca: this.props.navigation.state.params.params.FORCA})
        this.setState({magia: this.props.navigation.state.params.params.MAGIA})
        this.setState({precisao: this.props.navigation.state.params.params.PRECISAO})
@@ -58,7 +58,7 @@ export default class Personagem extends React.Component {
   edita(){
     const NOME = this.state.nome;
     const CLASSE = this.state.classe;
-    const RACA = this.state.raca;
+    const RARIDADE = this.state.raridade;
     const FORCA = Number(this.state.forca);
     const MAGIA = Number(this.state.magia);
     const PRECISAO = Number(this.state.precisao);
@@ -69,7 +69,7 @@ export default class Personagem extends React.Component {
     const AURA = Number(this.state.aura);
     db.transaction(function (tx) {
       tx.executeSql(
-        'UPDATE PERSONAGENS SET FORCA = ?,MAGIA = ?,PRECISAO = ?,AGILIDADE = ?,VITALIDADE = ?,ENERGIA = ?,ARMADURA = ?,AURA = ? WHERE NOME = ?',
+        'UPDATE ARMAS SET FORCA = ?,MAGIA = ?,PRECISAO = ?,AGILIDADE = ?,VITALIDADE = ?,ENERGIA = ?,ARMADURA = ?,AURA = ? WHERE NOME = ?',
         [FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA,NOME],
         (tx, results) => {
            if (results.rowsAffected > 0) {
@@ -134,7 +134,7 @@ export default class Personagem extends React.Component {
             <Text>{this.state.classe}</Text>
           </View>
           <View style={{flex:1}}>
-            <Text>{this.state.raca}</Text>
+            <Text>{this.state.raridade}</Text>
           </View>
         </View>
 

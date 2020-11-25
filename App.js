@@ -61,7 +61,7 @@ db.transaction(function (txn) {
           ' ID_ARMA INTEGER PRIMARY KEY AUTOINCREMENT, '+
           ' NOME VARCHAR(200), '+
           ' CLASSE VARCHAR(200), '+
-          ' RACA VARCHAR(200), '+
+          ' RARIDADE VARCHAR(200), '+
           ' FORCA INTEGER, '+
           ' MAGIA INTEGER, '+
           ' PRECISAO INTEGER, '+

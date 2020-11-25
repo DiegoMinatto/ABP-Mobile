@@ -7,11 +7,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Swipeout from 'react-native-swipeout';
 import { SafeAreaView } from 'react-navigation';
 
-import styles from './../Utils/styles'
+import styles from '../Utils/styles'
 
 var db = openDatabase({ name: 'rpg.db'});
 
-export default class HomeScreen extends React.Component {
+export default class Especie extends React.Component {
   static navigationOptions = {
     headerShown: false
   }
@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
   async componentDidMount() {
     
     await     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM PERSONAGENS', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM ARMAS', [], (tx, results) => {
         var temp = [];
         for (let i = 0; i < results.rows.length; ++i) {
           console.log(results.rows.item(i))
@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
 
   async deleteItemById(item) {
     db.transaction(tx => {
-      tx.executeSql('DELETE FROM PROJETOS WHERE ID_PERSONAGEM = ?', [item.ID_PROJETO], (tx, results) => {
+      tx.executeSql('DELETE FROM PROJETOS WHERE ID_ARMA = ?', [item.ID_PROJETO], (tx, results) => {
         var temp = [];
         for (let i = 0; i < results.rows.length; ++i) {
           temp.push(results.rows.item(i));
@@ -67,7 +67,7 @@ export default class HomeScreen extends React.Component {
 
   telaItem = (item) => {
 
-    this.props.navigation.navigate("Personagem", { params: item })
+    this.props.navigation.navigate("editaEspecie", { params: item })
   }
 
 
@@ -115,7 +115,7 @@ export default class HomeScreen extends React.Component {
       <ScrollView>
       <View style={{ alignItems: 'center', height: 50, marginBottom: 20, marginTop: '10%' }}>
         <Text style={{ marginTop: 10, fontSize: 17 }} ><Icon name="nature-people" size={40}
-             color="#336666" /> Meus Projetos</Text>
+             color="#336666" /> Exibir objetos</Text>
       </View>
       <View style={styles.viewFlatList}>
         <NavigationEvents
