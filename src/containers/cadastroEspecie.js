@@ -57,7 +57,7 @@ export default class cadastroEspecie extends React.Component {
            if (results.rowsAffected > 0) {
             alert('Salvo com sucesso!');
             app.limparCampos();
-            navigation.navigate('Home')
+            navigation.navigate('Objetos')
            } else {
               alert('Falha ao salvar!');
           }
