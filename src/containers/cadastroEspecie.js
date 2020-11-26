@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-paper';
 
 import styles from '../Utils/styles'
 
-var db = openDatabase({ name: 'rpg.db', createFromLocation: '~database/rpg.sqlite'});
+var db = openDatabase({ name: 'rpg.db'});
 
 export default class cadastroEspecie extends React.Component {
   static navigationOptions = {

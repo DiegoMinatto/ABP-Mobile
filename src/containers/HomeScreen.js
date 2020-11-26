@@ -114,8 +114,7 @@ export default class HomeScreen extends React.Component {
 
       <ScrollView>
       <View style={{ alignItems: 'center', height: 50, marginBottom: 20, marginTop: '10%' }}>
-        <Text style={{ marginTop: 10, fontSize: 17 }} ><Icon name="nature-people" size={40}
-             color="#336666" /> Meus Projetos</Text>
+        <Text style={{ marginTop: 10, fontSize: 17 }} >Personagens</Text>
       </View>
       <View style={styles.viewFlatList}>
         <NavigationEvents
