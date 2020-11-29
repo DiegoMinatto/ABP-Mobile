@@ -129,81 +129,18 @@ export default class editaEspecie extends React.Component {
           </View>
         </View> 
 
+        <View style={{flexDirection:"row"}}> 
+          <View style={{flex:1}}>
+            <Text></Text>
+          </View>
+        </View> 
+
         <View style={{flexDirection:"row"}}>
           <View style={{flex:1}}>
             <Text>{this.state.classe}</Text>
           </View>
           <View style={{flex:1}}>
             <Text>{this.state.raridade}</Text>
-          </View>
-        </View>
-
-        <View style={{flexDirection:"row"}}> 
-          <View style={{flex:1}}>
-            <Text></Text>
-          </View>
-        </View> 
-
-        <View style={{flexDirection:"row"}}>
-          <View style={{flex:1}}>
-            <Text>Dado Dano:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Picker style = {{width: 100, flex:1}} selectedValue = {this.state.dD} onValueChange = {(itemValor, itemIndex) => this.setState({dD: itemValor})}>
-              <Picker.Item label="d3" value="d3"/>
-              <Picker.Item label="d6" value="d6"/>
-              <Picker.Item label="d10" value="d10"/>
-              <Picker.Item label="d12" value="d12"/>
-              <Picker.Item label="d20" value="d20"/>
-            </Picker>
-          </View>
-          <View style={{flex:1}}>
-            <Text>Dado Pericia:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Picker style = {{width: 100, flex:1}} selectedValue = {this.state.dP} onValueChange = {(itemValor, itemIndex) => this.setState({dP: itemValor})}>
-              <Picker.Item label="d3" value="d3"/>
-              <Picker.Item label="d6" value="d6"/>
-              <Picker.Item label="d10" value="d10"/>
-              <Picker.Item label="d12" value="d12"/>
-              <Picker.Item label="d20" value="d20"/>
-            </Picker>
-          </View>
-        </View>
-
-        <View style={{flexDirection:"row"}}> 
-          <View style={{flex:1}}>
-            <Text></Text>
-          </View>
-        </View> 
-
-        <View style={{flexDirection:"row"}}>
-          <View style={{flex:1}}>
-            <Text>Força:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>{this.state.rF}</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>Magia:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>{this.state.rM}</Text>
-          </View>
-        </View>
-
-        <View style={{flexDirection:"row"}}>
-          <View style={{flex:1}}>
-            <Text>Precisão:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>{this.state.rP}</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>Agilidade:</Text>
-          </View>
-          <View style={{flex:1}}>
-            <Text>{this.state.rA}</Text>
           </View>
         </View>
 
@@ -453,13 +390,6 @@ export default class editaEspecie extends React.Component {
 
         <View style={{paddingBottom: 10, paddingTop: 15, flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
           <View style={{flexDirection:"row"}}>
-            <View style={{flex:1}}>
-              <TouchableOpacity style={styles.entrar2}
-                                onPress={() => {this.calcular() }}
-              >
-                <Text style={styles.textButton}>Calcular</Text>
-              </TouchableOpacity>    
-            </View>
             <View style={{flex:1}}>
                 <TouchableOpacity style={styles.entrar3}
                                   onPress={() => {this.componentDidMount()}}

@@ -8,6 +8,8 @@ import styles from './../Utils/styles'
 var db = openDatabase({ name: 'rpg.db'});
 var vD = 0;
 var vP = 0;
+var contA = 0;
+var selectedValue = "";
 
 export default class Personagem extends React.Component {
   static navigationOptions = {
@@ -32,12 +34,21 @@ export default class Personagem extends React.Component {
         rF: '0',
         rM: '0',
         rP: '0',
-        rA: '0'
+        rA: '0',
+        nomeArma: '',
+        forcaA: '0',
+        magiaA: '0',
+        precisaoA: '0',
+        agilidadeA: '0',
+        vitalidadeA: '0',
+        energiaA: '0',
+        armaduraA: '0',
+        auraA: '0',
+        auxiliar: '',
+        listaArmas: []
     }
 
   }
-
-  
 
   componentDidMount(){
    if(this.props.navigation.state.params.params){
@@ -51,28 +62,31 @@ export default class Personagem extends React.Component {
        this.setState({vitalidade: this.props.navigation.state.params.params.VITALIDADE})
        this.setState({energia: this.props.navigation.state.params.params.ENERGIA})
        this.setState({armadura: this.props.navigation.state.params.params.ARMADURA})
-       this.setState({aura: this.props.navigation.state.params.params.AURA})  
+       this.setState({aura: this.props.navigation.state.params.params.AURA})
    }
+   this.limpaArma();
   }
 
   edita(){
+    this.celecionaArmas("Remover");
     const NOME = this.state.nome;
     const CLASSE = this.state.classe;
     const RACA = this.state.raca;
-    const FORCA = Number(this.state.forca);
-    const MAGIA = Number(this.state.magia);
-    const PRECISAO = Number(this.state.precisao);
-    const AGILIDADE = Number(this.state.agilidade);
-    const VITALIDADE = Number(this.state.vitalidade);
-    const ENERGIA = Number(this.state.energia);
-    const ARMADURA = Number(this.state.armadura);
-    const AURA = Number(this.state.aura);
+    const FORCA = Number(this.state.forca) - Number(this.state.forcaA);
+    const MAGIA = Number(this.state.magia) - Number(this.state.magiaA);
+    const PRECISAO = Number(this.state.precisao) - Number(this.state.precisaoA);
+    const AGILIDADE = Number(this.state.agilidade) - Number(this.state.agilidadeA);
+    const VITALIDADE = Number(this.state.vitalidade) - Number(this.state.vitalidadeA);
+    const ENERGIA = Number(this.state.energia) - Number(this.state.energiaA);
+    const ARMADURA = Number(this.state.armadura) - Number(this.state.armaduraA);
+    const AURA = Number(this.state.aura) - Number(this.state.auraA);
     db.transaction(function (tx) {
       tx.executeSql(
         'UPDATE PERSONAGENS SET FORCA = ?,MAGIA = ?,PRECISAO = ?,AGILIDADE = ?,VITALIDADE = ?,ENERGIA = ?,ARMADURA = ?,AURA = ? WHERE NOME = ?',
         [FORCA,MAGIA,PRECISAO,AGILIDADE,VITALIDADE,ENERGIA,ARMADURA,AURA,NOME],
         (tx, results) => {
            if (results.rowsAffected > 0) {
+            limparCampos();
             alert('Salvo com sucesso!');
            } else {
             alert('Falha ao salvar!');
@@ -112,10 +126,107 @@ export default class Personagem extends React.Component {
     this.setState({rP:String(parseInt(this.state.precisao) + Math.floor(Math.random() * vP + 1))});
     this.setState({rA:String(parseInt(this.state.agilidade) + Math.floor(Math.random() * vP + 1))});
 
+  }
+
+  limpaArma(){
+    this.setState({
+      nomeArma: "",
+      forcaA: 0,
+      magiaA: 0,
+      precisaoA: 0,
+      agilidadeA: 0,
+      vitalidadeA: 0,
+      energiaA: 0,
+      armaduraA: 0,
+      auraA: 0,
+    });
+  }
+
+  celecionaArmas(recebeValor){
+    
+
+    if(recebeValor == "Remover"){
+      this.setState({
+        forca: String(parseInt(this.state.forca) - parseInt(this.state.forcaA)),
+        magia: String(parseInt(this.state.magia) - parseInt(this.state.magiaA)),
+        precisao: String(parseInt(this.state.precisao) - parseInt(this.state.precisaoA)),
+        agilidade: String(parseInt(this.state.agilidade) - parseInt(this.state.agilidadeA)),
+        vitalidade: String(parseInt(this.state.vitalidade) - parseInt(this.state.vitalidade)),
+        energia: String(parseInt(this.state.energia) - parseInt(this.state.energia)),
+        armadura: String(parseInt(this.state.armadura) - parseInt(this.state.armaduraA)),
+        aura: String(parseInt(this.state.aura) - parseInt(this.state.auraA)),
+      });
+      this.limpaArma();
+    }else{
+      this.setState({
+        nomeArma: recebeValor,
+        forca: String(parseInt(this.state.forca) - parseInt(this.state.forcaA)),
+        magia: String(parseInt(this.state.magia) - parseInt(this.state.magiaA)),
+        precisao: String(parseInt(this.state.precisao) - parseInt(this.state.precisaoA)),
+        agilidade: String(parseInt(this.state.agilidade) - parseInt(this.state.agilidadeA)),
+        vitalidade: String(parseInt(this.state.vitalidade) - parseInt(this.state.vitalidade)),
+        energia: String(parseInt(this.state.energia) - parseInt(this.state.energia)),
+        armadura: String(parseInt(this.state.armadura) - parseInt(this.state.armaduraA)),
+        aura: String(parseInt(this.state.aura) - parseInt(this.state.auraA)),
+      });
+
+      db.transaction(tx => {
+        tx.executeSql('SELECT * FROM ARMAS WHERE NOME = ?', [this.state.nomeArma], (tx, results) => {
+          var pega = results.rows.item(0);
+            this.setState({
+              forcaA: String(pega.FORCA),
+              magiaA: String(pega.MAGIA),
+              precisaoA: String(pega.PRECISAO),
+              agilidadeA: String(pega.AGILIDADE),
+              vitalidadeA: String(pega.VITALIDADE),
+              energiaA: String(pega.ENERGIA),
+              armaduraA: String(pega.ARMADURA),
+              auraA: String(pega.AURA)
+            });
+          this.setState({
+            forca: String(parseInt(this.state.forca) + parseInt(this.state.forcaA)),
+            magia: String(parseInt(this.state.magia) + parseInt(this.state.magiaA)),
+            precisao: String(parseInt(this.state.precisao) + parseInt(this.state.precisaoA)),
+            agilidade: String(parseInt(this.state.agilidade) + parseInt(this.state.agilidadeA)),
+            vitalidade: String(parseInt(this.state.vitalidade) + parseInt(this.state.vitalidade)),
+            energia: String(parseInt(this.state.energia) + parseInt(this.state.energia)),
+            armadura: String(parseInt(this.state.armadura) + parseInt(this.state.armaduraA)),
+            aura: String(parseInt(this.state.aura) + parseInt(this.state.auraA))
+          });
+        });
+      });
+    }
+  }
+
+  renderRow(row){
+    return (<Picker.Item label={String(row)} value={String(row)}/>)
+  }
+
+  pegaArmas(){
+
+    db.transaction(tx => {
+      tx.executeSql('SELECT NOME FROM ARMAS', [], (tx, results) => {
+        var temp = [];
+        for (let i = 0; i < results.rows.length; ++i){
+          temp.push(results.rows.item(i));
+        }
+        this.setState({
+          listaArmas: temp
+        });
+      });
+    });
 
   }
 
   render() {
+
+    this.pegaArmas();
+
+    let rows = []
+    for(let i=0; i<this.state.listaArmas.length; i++){
+      rows.push(this.state.listaArmas[i].NOME)
+    }
+
     return (
 
       <View style={styles.content}>
@@ -126,6 +237,11 @@ export default class Personagem extends React.Component {
 
         <View style={{flexDirection:"row"}}> 
           <View style={{flex:1}}>
+          </View>
+        </View> 
+        <View style={{flexDirection:"row"}}> 
+          <View style={{flex:1}}>
+            <Text></Text>
           </View>
         </View> 
 
@@ -443,6 +559,33 @@ export default class Personagem extends React.Component {
             </View>
 
           </View>
+
+          <View style={{flexDirection:"row"}}> 
+            <View style={{flex:1}}>
+              <Text></Text>
+            </View>
+          </View>
+          <View style={{flexDirection:"row"}}> 
+            <View style={{flex:1}}>
+              <Text></Text>
+            </View>
+          </View>
+          <View style={{flexDirection:"row"}}> 
+            <View style={{flex:1}}>
+              <Text></Text>
+            </View>
+          </View>
+          <View style={{flexDirection:"row"}}> 
+            <View style={{flex:1}}>
+              <Text></Text>
+            </View>
+          </View>
+          <View style={{flexDirection:"row"}}> 
+            <View style={{flex:1}}>
+              <Text></Text>
+            </View>
+          </View>
+          
         </ScrollView>
 
         <View style={{flexDirection:"row"}}> 
@@ -450,6 +593,41 @@ export default class Personagem extends React.Component {
             <Text></Text>
           </View>
         </View> 
+
+        <View style={{flexDirection:"row"}}>
+          <View style={{flex:0.3}}>
+            <Text>Arma:</Text>
+          </View>
+          <View style={{flex:1}}>
+            <Picker style = {{width: 250, flex:1}} selectedValue = {selectedValue} onValueChange = {(itemValor) => {this.celecionaArmas(itemValor)}}>
+              <Picker.Item label="-" value="-"/>
+              <Picker.Item label="Remover" value="Remover"/>
+              {rows.map(this.renderRow)}
+            </Picker>
+          </View>
+        </View>
+
+        <View style={{flexDirection:"row"}}> 
+          <View style={{flex:1}}>
+            <Text></Text>
+          </View>
+        </View> 
+
+        <View style={{flexDirection:"row"}}>
+          <View style={{flex:0.4}}>
+            <Text>Arma Selecionada:</Text>
+          </View>
+          <View style={{flex:0.6}}>
+            <Text>{this.state.nomeArma}</Text>
+          </View>
+        </View>
+
+        <View style={{flexDirection:"row"}}> 
+          <View style={{flex:1}}>
+            <Text></Text>
+          </View>
+        </View> 
+        
 
         <View style={{paddingBottom: 10, paddingTop: 15, flexDirection: 'column', width:'100%',justifyContent:'center', alignItems:'center' }}>
           <View style={{flexDirection:"row"}}>
