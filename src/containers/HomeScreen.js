@@ -49,17 +49,11 @@ export default class HomeScreen extends React.Component {
   }
 
   async deleteItemById(item) {
+  
     db.transaction(tx => {
-      tx.executeSql('DELETE FROM PROJETOS WHERE ID_PERSONAGEM = ?', [item.ID_PROJETO], (tx, results) => {
-        var temp = [];
-        for (let i = 0; i < results.rows.length; ++i) {
-          temp.push(results.rows.item(i));
-        }
+      tx.executeSql('DELETE FROM PERSONAGENS WHERE ID_PERSONAGEM = ?', [item], (tx, results) => {
+    
       });
-
-      this.setState({
-        FlatList: this.state.FlatListItems
-      })
 
     });
 
@@ -87,6 +81,32 @@ export default class HomeScreen extends React.Component {
         })
 
       },
+      right: [
+        {
+          onPress: () => {
+            const deletingRow = this.state.activeRowKey;
+            Alert.alert(
+              'Alert',
+              'Tem certeza que você quer deletar este personagem?',
+              [
+                { text: 'Não', onPress: () => {}, style: 'cancel' },
+                {
+                  text: 'Sim', onPress: () => {
+                    var id = this.state.FlatListItems[index].ID_PERSONAGEM;
+                    this.setState({
+                      FlatListItems: this.state.FlatListItems.splice(index, -1)
+                    })
+
+                    this.deleteItemById(id);
+
+                  }
+                }
+              ]
+            )
+          },
+          text: 'Excluir', type: 'delete'
+        },
+      ],
       rowId: index,
       sectionId: 1,
     }
