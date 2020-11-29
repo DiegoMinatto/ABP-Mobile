@@ -31,9 +31,12 @@ export default class Especie extends React.Component {
 
 
   async componentDidMount() {
+    console.log('OLHA A ESPECIE')
+    console.log(this.props.navigation.state.params.params)
+    console.log('OLHA A ESPECIE')
     
     await     db.transaction(tx => {
-      tx.executeSql('SELECT * FROM ARMAS', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM ARMAS WHERE CLASSE = ?', [this.props.navigation.state.params.params], (tx, results) => {
         var temp = [];
         for (let i = 0; i < results.rows.length; ++i) {
           console.log(results.rows.item(i))
@@ -49,17 +52,13 @@ export default class Especie extends React.Component {
   }
 
   async deleteItemById(item) {
+   console.log('ITEM')
+   console.log(item)
+   console.log('ITEM')
     db.transaction(tx => {
-      tx.executeSql('DELETE FROM PROJETOS WHERE ID_ARMA = ?', [item.ID_PROJETO], (tx, results) => {
-        var temp = [];
-        for (let i = 0; i < results.rows.length; ++i) {
-          temp.push(results.rows.item(i));
-        }
+      tx.executeSql('DELETE FROM ARMAS WHERE ID_ARMA = ?', [item], (tx, results) => {
+    
       });
-
-      this.setState({
-        FlatList: this.state.FlatListItems
-      })
 
     });
 
@@ -69,6 +68,7 @@ export default class Especie extends React.Component {
 
     this.props.navigation.navigate("editaEspecie", { params: item })
   }
+
 
 
   renderItem = ({ item, index }) => {
@@ -87,6 +87,36 @@ export default class Especie extends React.Component {
         })
 
       },
+      right: [
+        {
+          onPress: () => {
+            const deletingRow = this.state.activeRowKey;
+            Alert.alert(
+              'Alert',
+              'Tem certeza que você quer deletar este personagem?',
+              [
+                { text: 'Não', onPress: () => {}, style: 'cancel' },
+                {
+                  text: 'Sim', onPress: () => {
+                    var id = this.state.FlatListItems[index].ID_ARMA;
+                    var arr = this.state.FlatListItems.filter(function(item) {
+                      return item.ID_ARMA !== id
+                    })
+                    this.setState({
+                      FlatListItems: arr
+                    })
+                    this.forceUpdate();
+                    this.deleteItemById(id);
+                  }
+                }
+              ]
+            )
+          },
+          text: 'Excluir', type: 'delete'
+        },
+      ],
+
+      
       rowId: index,
       sectionId: 1,
     }

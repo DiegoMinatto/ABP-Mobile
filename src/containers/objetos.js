@@ -31,7 +31,7 @@ export default class Objetos extends Component {
 
     
   this.setState((prevState) => ({
-    ArrayNomes: ['Espadas','Machado','Cajado','Marreta','Arcos','Lança','Escudo','Armaduras','Grimorio']
+    ArrayNomes: ['Espada','Machado','Cajado','Marreta','Arco','Lança','Escudo','Armadura','Grimorio']
   }))
    
   }

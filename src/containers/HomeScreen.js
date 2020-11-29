@@ -93,10 +93,13 @@ export default class HomeScreen extends React.Component {
                 {
                   text: 'Sim', onPress: () => {
                     var id = this.state.FlatListItems[index].ID_PERSONAGEM;
-                    this.setState({
-                      FlatListItems: this.state.FlatListItems.splice(index, -1)
+                    var arr = this.state.FlatListItems.filter(function(item) {
+                      return item.ID_PERSONAGEM!== id
                     })
-
+                    this.setState({
+                      FlatListItems: arr
+                    })
+                    this.forceUpdate();
                     this.deleteItemById(id);
 
                   }
